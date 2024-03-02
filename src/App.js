@@ -25,20 +25,39 @@ const App = () => {
     try {
       const options = {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           history: chatHistory,
           message: value,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       };
       const response = await fetch("http://localhost:8000/gemini", options);
       const data = await response.text();
+
+      setChatHistory((oldChatHistory) => [
+        ...oldChatHistory,
+        {
+          role: "user",
+          parts: value,
+        },
+        {
+          role: "model",
+          parts: data,
+        },
+      ]);
+      setValue("");
     } catch (error) {
       console.error(error);
       setError("Something went wrong. Please try again later.");
     }
+  };
+
+  const clear = () => {
+    setChatHistory([]);
+    setValue("");
+    setError("");
   };
 
   return (
@@ -55,14 +74,18 @@ const App = () => {
           placeholder="When is Christmas...?"
           onChange={(e) => setValue(e.target.value)}
         />
-        {!error && <button>Ask me</button>}
-        {error && <button>Clear</button>}
+        {!error && <button onClick={getResponse}>Ask me</button>}
+        {error && <button onClick={clear}>Clear</button>}
       </div>
       {error && <p className="error">{error}</p>}
       <div className="search-result">
-        <div key={""}>
-          <p className="answer"></p>
-        </div>
+        {chatHistory.map((chatItem, _index) => (
+          <div key={_index}>
+            <p className="answer">
+              {chatItem.role} : {chatItem.parts}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
