@@ -16,6 +16,7 @@ body {
 p {
   font-weight: 200;
   font-size: 14px;
+  margin: 0; /* Remove margin for cleaner spacing */
 }
 
 .app {
@@ -28,7 +29,8 @@ p {
 
 .search-result {
   margin-top: 10px;
-  overflow: scroll;
+  overflow-scroll: auto; /* Use auto instead of scroll for dynamic height */
+  flex: 1; /* Allow search result to fill remaining space */
 }
 
 .surprise {
@@ -39,6 +41,11 @@ p {
   padding: 4px 12px;
   margin: 0 0 2px 5px;
   border: none;
+  cursor: pointer; /* Add cursor for hover effect */
+}
+
+.surprise:hover {
+  background-color: #ddd; /* Add hover effect */
 }
 
 .input-container {
@@ -88,4 +95,8 @@ p {
   border-radius: 6px;
   font-weight: 200;
   border-radius: 6px;
+}
+
+.error {
+  color: red; /* Change error message color for better visibility */
 }
