@@ -1,67 +1,53 @@
-# React Chatbot with Google Gemini AI
+# AI Code Buddy
 
-This is a React application that implements a basic chatbot using the Google Gemini AI API.
+**Description:**
+
+This is a React application that provides a smart coding companion, leveraging Google's generative AI capabilities to assist with various programming tasks.
 
 **Features:**
 
-* Asks questions and receives responses from the Gemini AI model.
-* Displays conversation history.
-* Handles user input errors and provides informative messages.
-* Includes a "Surprise me" button that asks random questions from a predefined list.
+* TODO: List the specific features and functionalities of the application.
 
-**Prerequisites:**
+**Dependencies:**
 
-* Node.js and npm (or yarn) installed on your system.
-* A Google Gemini AI project and API key (**not included in this repository for security reasons**).
+* @google/generative-ai: "^0.2.1" (Google generative AI service)
+* concurrently: "^8.2.2" (Runs multiple commands concurrently)
+* cors: "^2.8.5" (Enables Cross-Origin Resource Sharing)
+* dotenv: "^16.4.5" (Loads environment variables from a .env file)
+* express: "^4.18.3" (Web framework for Node.js)
+* nodemon: "^3.1.0" (Monitors changes in Node.js files and restarts the server)
 
 **Installation:**
 
 1. Clone this repository.
 2. Navigate to the project directory.
-3. Install the dependency:
+3. Install dependencies:
 
    ```bash
-   npm install react
+   npm install
    ```
 
-**Usage:**
-
-1. Create a `.env` file in the project root directory.
-2. In the `.env` file, add the following line, replacing `<YOUR_API_KEY>` with your actual Google Gemini API key:
+4. Create a `.env` file and add your Google API key:
 
    ```
    GOOGLE_GEN_AI_KEY=<YOUR_API_KEY>
    ```
-3. **IMPORTANT:** **Do not commit the `.env` file to version control** (e.g., Git) to prevent exposing your API key.
-4. Start the development server:
+
+**Usage:**
+
+1. Runs both frontend and backend servers concurrently:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
-5. Open http://localhost:3000 in your web browser.
+2. Open http://localhost:3000 in your web browser.
 
-**Deployment:**
+**Scripts:**
 
-1. Build the production-ready version:
-
-   ```bash
-   npm run build
-   ```
-
-2. Host the built files on a suitable platform (e.g., static website hosting, cloud platform).
-
-**Contributing:**
-
-We welcome contributions to this project! Please see the CONTRIBUTING.md file for more information.
-
-**License:**
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-```
-
-Remember to follow the security guidelines:
-
-* **Do not** share your Google Gemini API key publicly.
-* Keep the API key in a secure `.env` file and **never** commit it to version control.
-* Consider using environment variables or other secure key management practices in production environments.
+* `npm run dev`: Runs both frontend and backend servers concurrently.
+* `npm start:frontend`: Starts the React frontend development server.
+* `npm start:backend`: Starts the Node.js backend server.
+* `npm run build`: Builds the production-ready version of the frontend.
+* `npm run test`: Runs tests for the application.
+* `npm run eject`: Ejects the React app for more customization (use with caution).
