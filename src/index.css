@@ -10,28 +10,35 @@ body {
   background-color: #f4f4f4;
   display: flex;
   justify-content: center;
-  color: #777;
+  color: #3d3d3d;
 }
 
 p {
   font-weight: 200;
   font-size: 14px;
-  margin: 0; /* Remove margin for cleaner spacing */
+  margin: 0; 
 }
 
 .app {
   width: 80vw;
-  height: 80vh;
-  margin: 10vw;
+  height: 90vh;
+  margin: 3vw;
   display: flex;
   flex-direction: column;
 }
 
 .search-result {
   margin-top: 10px;
-  overflow-scroll: auto; /* Use auto instead of scroll for dynamic height */
-  flex: 1; /* Allow search result to fill remaining space */
+  flex: 1; 
+  overflow: scroll;
+  padding-bottom: 20px;
 }
+
+.search-result::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 
 .surprise {
   background-color: #ececf1;
@@ -41,11 +48,11 @@ p {
   padding: 4px 12px;
   margin: 0 0 2px 5px;
   border: none;
-  cursor: pointer; /* Add cursor for hover effect */
+  cursor: pointer; 
 }
 
 .surprise:hover {
-  background-color: #ddd; /* Add hover effect */
+  background-color: #ddd; 
 }
 
 .input-container {
@@ -98,5 +105,24 @@ p {
 }
 
 .error {
-  color: red; /* Change error message color for better visibility */
+  color: rgb(172, 0, 0); 
+}
+
+.message-gap {
+  height: 10px;
+  
+}
+
+.user-message {
+  background-color: #b3d4fc81;
+  align-self: flex-start;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.bot-message {
+  background-color: #c7c7c78e;
+  align-self: flex-end;
+  border-radius: 6px;
+  padding: 10px;
 }

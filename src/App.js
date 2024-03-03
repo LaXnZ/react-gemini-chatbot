@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactMarkdown from 'react-markdown';
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -35,18 +36,32 @@ const App = () => {
       };
       const response = await fetch("http://localhost:8000/gemini", options);
       const data = await response.text();
-
+  
+      let formattedResponse = '';
+      
+      if (data.startsWith("**")) {
+        // Bot's opinion on a topic
+        formattedResponse = data;
+      } else {
+        // Regular response
+        formattedResponse = `**Bot:** ${data}`;
+      }
+      
+      // Format user message before adding to chat history
+      const formattedUserMessage = `**You:** ${value}`;
+      
       setChatHistory((oldChatHistory) => [
         ...oldChatHistory,
         {
           role: "user",
-          parts: value,
+          parts: formattedUserMessage,
         },
         {
           role: "model",
-          parts: data,
+          parts: formattedResponse,
         },
       ]);
+      
       setValue("");
     } catch (error) {
       console.error(error);
@@ -79,11 +94,20 @@ const App = () => {
       </div>
       {error && <p className="error">{error}</p>}
       <div className="search-result">
-        {chatHistory.map((chatItem, _index) => (
-          <div key={_index}>
-            <p className="answer">
-              {chatItem.role} : {chatItem.parts}
-            </p>
+        {chatHistory.map((chatItem, index) => (
+          <div key={index}>
+            <div className="message">
+              {chatItem.role === "user" ? (
+                <div className="user-message">
+                  <ReactMarkdown>{chatItem.parts}</ReactMarkdown>
+                </div>
+              ) : (
+                <div className="bot-message">
+                  <ReactMarkdown>{chatItem.parts}</ReactMarkdown>
+                </div>
+              )}
+            </div>
+            {index !== chatHistory.length - 1 && <div className="message-gap" />}
           </div>
         ))}
       </div>
