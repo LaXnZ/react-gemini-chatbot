@@ -1,11 +1,14 @@
-import { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css"; // Import PrismJS CSS
+import CodeResponse from "./CodeResponse"; // Import CodeResponse component
 
 const App = () => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
-  const textareaRef = useRef(null); // Create a ref for the textarea
+  const textareaRef = useRef(null);
 
   const surpriseOptions = [
     "Who do you make BLT sandwich?",
@@ -20,9 +23,8 @@ const App = () => {
   };
 
   function autoResizeInput() {
-    const input = document.getElementById("chat-input");
-    input.style.height = "auto";
-    input.style.height = input.scrollHeight + "px";
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
   }
 
   const getResponse = async () => {
@@ -47,14 +49,11 @@ const App = () => {
       let formattedResponse = "";
 
       if (data.startsWith("**")) {
-        // Bot's opinion on a topic
         formattedResponse = data;
       } else {
-        // Regular response
         formattedResponse = `**Bot:** ${data}`;
       }
 
-      // Format user message before adding to chat history
       const formattedUserMessage = `**You:** ${value}`;
 
       setChatHistory((oldChatHistory) => [
@@ -71,7 +70,7 @@ const App = () => {
 
       setValue("");
       setError("");
-      textareaRef.current.style.height = "auto"; // Reset the height of the textarea
+      textareaRef.current.style.height = "auto";
     } catch (error) {
       console.error(error);
       setError("Something went wrong. Please try again later.");
@@ -82,8 +81,12 @@ const App = () => {
     setChatHistory([]);
     setValue("");
     setError("");
-    textareaRef.current.style.height = "auto"; // Reset the height of the textarea
+    textareaRef.current.style.height = "auto";
   };
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [chatHistory]);
 
   return (
     <div className="app">
@@ -104,7 +107,6 @@ const App = () => {
             autoResizeInput();
           }}
         />
-
         {!error && <button onClick={getResponse}>Ask me</button>}
         {error && <button onClick={clear}>Clear</button>}
       </div>
@@ -117,15 +119,15 @@ const App = () => {
                 <div className="user-message">
                   <ReactMarkdown>{chatItem.parts}</ReactMarkdown>
                 </div>
+              ) : chatItem.parts.startsWith("```") ? (
+                <CodeResponse code={chatItem.parts} />
               ) : (
                 <div className="bot-message">
                   <ReactMarkdown>{chatItem.parts}</ReactMarkdown>
                 </div>
               )}
             </div>
-            {index !== chatHistory.length - 1 && (
-              <div className="message-gap" />
-            )}
+            {index !== chatHistory.length - 1 && <div className="message-gap" />}
           </div>
         ))}
       </div>
