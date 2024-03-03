@@ -1,10 +1,11 @@
-import { useState } from "react";
-import ReactMarkdown from 'react-markdown';
+import { useState, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 
 const App = () => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const textareaRef = useRef(null); // Create a ref for the textarea
 
   const surpriseOptions = [
     "Who do you make BLT sandwich?",
@@ -17,6 +18,12 @@ const App = () => {
     const randomValue = Math.floor(Math.random() * surpriseOptions.length);
     setValue(surpriseOptions[randomValue]);
   };
+
+  function autoResizeInput() {
+    const input = document.getElementById("chat-input");
+    input.style.height = "auto";
+    input.style.height = input.scrollHeight + "px";
+  }
 
   const getResponse = async () => {
     if (!value) {
@@ -36,9 +43,9 @@ const App = () => {
       };
       const response = await fetch("http://localhost:8000/gemini", options);
       const data = await response.text();
-  
-      let formattedResponse = '';
-      
+
+      let formattedResponse = "";
+
       if (data.startsWith("**")) {
         // Bot's opinion on a topic
         formattedResponse = data;
@@ -46,10 +53,10 @@ const App = () => {
         // Regular response
         formattedResponse = `**Bot:** ${data}`;
       }
-      
+
       // Format user message before adding to chat history
       const formattedUserMessage = `**You:** ${value}`;
-      
+
       setChatHistory((oldChatHistory) => [
         ...oldChatHistory,
         {
@@ -61,8 +68,10 @@ const App = () => {
           parts: formattedResponse,
         },
       ]);
-      
+
       setValue("");
+      setError("");
+      textareaRef.current.style.height = "auto"; // Reset the height of the textarea
     } catch (error) {
       console.error(error);
       setError("Something went wrong. Please try again later.");
@@ -73,6 +82,7 @@ const App = () => {
     setChatHistory([]);
     setValue("");
     setError("");
+    textareaRef.current.style.height = "auto"; // Reset the height of the textarea
   };
 
   return (
@@ -84,11 +94,17 @@ const App = () => {
         </button>
       </p>
       <div className="input-container">
-        <input
+        <textarea
+          ref={textareaRef}
+          id="chat-input"
           value={value}
           placeholder="When is Christmas...?"
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+            autoResizeInput();
+          }}
         />
+
         {!error && <button onClick={getResponse}>Ask me</button>}
         {error && <button onClick={clear}>Clear</button>}
       </div>
@@ -107,7 +123,9 @@ const App = () => {
                 </div>
               )}
             </div>
-            {index !== chatHistory.length - 1 && <div className="message-gap" />}
+            {index !== chatHistory.length - 1 && (
+              <div className="message-gap" />
+            )}
           </div>
         ))}
       </div>

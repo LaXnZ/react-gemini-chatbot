@@ -16,7 +16,7 @@ body {
 p {
   font-weight: 200;
   font-size: 14px;
-  margin: 0; 
+  margin: 0;
 }
 
 .app {
@@ -29,7 +29,7 @@ p {
 
 .search-result {
   margin-top: 10px;
-  flex: 1; 
+  flex: 1;
   overflow: scroll;
   padding-bottom: 20px;
 }
@@ -39,7 +39,6 @@ p {
   height: 0;
 }
 
-
 .surprise {
   background-color: #ececf1;
   color: #000;
@@ -48,16 +47,17 @@ p {
   padding: 4px 12px;
   margin: 0 0 2px 5px;
   border: none;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .surprise:hover {
-  background-color: #ddd; 
+  background-color: #ddd;
 }
 
 .input-container {
   width: 100%;
   display: flex;
+  flex-direction: column; /* Added to stack elements vertically */
   border: solid 0.5px #cacaca;
   box-sizing: border-box;
   overflow: hidden;
@@ -65,14 +65,16 @@ p {
   box-shadow: rgba(0, 0, 82, 0.15) 0 2px 4px;
 }
 
-.input-container input {
-  width: 90%;
+.input-container textarea {
+  width: 100%;
   padding: 13px 14px;
   border: none;
   box-sizing: border-box;
   outline: none;
   font-size: 15px;
   font-weight: 200;
+  resize: vertical;
+  height: auto;
 }
 
 .input-container input::placeholder {
@@ -81,13 +83,12 @@ p {
 }
 
 .input-container button {
-  min-width: 10%;
   background-color: #fff;
   border: none;
-  border-left: 1px solid #cacaca;
   cursor: pointer;
   color: #777;
   font-weight: bold;
+  padding: 13px 14px; 
 }
 
 .input-container button:active {
@@ -105,12 +106,11 @@ p {
 }
 
 .error {
-  color: rgb(172, 0, 0); 
+  color: rgb(172, 0, 0);
 }
 
 .message-gap {
   height: 10px;
-  
 }
 
 .user-message {
@@ -126,3 +126,4 @@ p {
   border-radius: 6px;
   padding: 10px;
 }
+
